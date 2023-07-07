@@ -13,27 +13,31 @@
 
 # Config:
 
-**apiUrl** - backend url for sending requests (create user/loan, grant/confir/repay loan request),
-**periodInHours** - interval for runing main script, specified in hours, if needed 30min - set 0.5, etc
-**isLendersCreated** - initially false, will be changed to true, after creation Lenders accounts, prevents creating Lenders accounts every script iteration;
-**lendersCount** - Quantity of Lenders accounts to be created,initially 15
-**queries** - queries for Ebay searching, [
-{ "title": "gold mens watch" },
-{ "title": "air jordan" },
-{ "title": "Iphone X" },
-{ "title": "jewelery" }
-]
+- **apiUrl** - backend url for sending requests (create user/loan, grant/confir/repay loan request),
+- **periodInHours** - interval for runing main script, specified in hours, if needed 30min - set 0.5, etc
+- **isLendersCreated** - initially false, will be changed to true, after creation Lenders accounts, prevents creating Lenders accounts every script iteration;
+- **lendersCount** - Quantity of Lenders accounts to be created,initially 15
+- **queries** - queries for Ebay searching, [
+  { "title": "gold mens watch" },
+  { "title": "air jordan" },
+  { "title": "Iphone X" },
+  { "title": "jewelery" }
+  ]
 
-1. ### Run script:
+### Run script:
 
 - docker compose build;
 - docker compose up
 
-2. ### Change script running interval, by default - every 3 hours:
-   config.json => "periodInHours"
-3. ### Add new collateral query for Loan request and Ebay images search:
-   config.json => "queries"=>{title: "new query"}
-4. ### Renew Lenders accounts:
+### Change script running interval, by default - every 3 hours:
+
+config.json => "periodInHours"
+
+### Add new collateral query for Loan request and Ebay images search:
+
+config.json => "queries"=>{title: "new query"}
+
+### Renew Lenders accounts:
 
 - docker compose down
 - Clean up lenders.json, don't delete file lenders.json
@@ -41,7 +45,7 @@
 - docker compose build;
 - docker compose up
 
-5. ### Change Lenders count:
+### Change Lenders count:
 
 - docker compose down
 - Clean up lenders.json, don't delete file lenders.json
