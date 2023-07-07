@@ -1,0 +1,10 @@
+version: "3"
+services:
+  app:
+    build: ./
+    volumes:
+      - ./config.json:/usr/app/loans-generator/config.json
+      - ./lenders.json:/usr/app/loans-generator/lenders.json
+      - ./error.log:/usr/app/loans-generator/error.log
+      - ./loans.log:/usr/app/loans-generator/loans.log
+    restart: always

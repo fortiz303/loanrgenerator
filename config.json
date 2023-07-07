@@ -1,0 +1,12 @@
+{
+  "apiUrl": "https://getloanr.com/backend/v1",
+  "periodInHours": 3,
+  "isLendersCreated": false,
+  "lendersCount": 15,
+  "queries": [
+    { "title": "gold mens watch" },
+    { "title": "air jordan" },
+    { "title": "Iphone X" },
+    { "title": "jewelery" }
+  ]
+}
