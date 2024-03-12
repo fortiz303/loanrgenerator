@@ -1,8 +1,10 @@
 import { writeFile, readFile, appendFile } from "node:fs/promises";
-import { UserData, UserInterface } from "../interfaces.js";
 import { Lender } from "./Lender.js";
 
+import { faker } from "@faker-js/faker";
+
 import path from "path";
+import { join } from "node:path";
 const __dirname = path.resolve();
 
 export class Utils {
@@ -52,34 +54,27 @@ export class Utils {
     const lenders = JSON.parse(lendersList);
     return lenders;
   }
-  /*Prepare loan request data */
-  static async normalizeUserData(userData: UserData): Promise<UserInterface> {
-    const avatarResponse = await fetch(userData.picture.large);
 
-    const avatarBlob = await avatarResponse.blob();
-
-    const user = {
-      name: `${userData.name.first} ${userData.name.last}`,
-      email: `${userData.login.username}@getloanr.com`,
-      password: "12345678",
-      contact: "+15555555555",
-      username: userData.login.username,
-      location: userData.location.city,
-      id_type: "id" as const,
-      number: userData.id.value,
-      pfp: avatarBlob,
-    };
-    return user;
-  }
   /*Get user data from API */
   static async getUsersData(count: number) {
+    let users = [];
     try {
-      const response = await fetch(
-        `https://randomuser.me/api/?nat=us&results=${count}`
-      );
+      for (let u of Array.from({ length: count })) {
+        let username = "";
+        while (username.length < 5 || username.length > 10) {
+          username = faker.internet.userName().toLowerCase();
+        }
+        users.push({
+          name: faker.person.fullName(),
+          email: username + "@getloanr.com",
+          password: faker.internet.password(),
+          contact: "+15555555555",
+          username,
+          location: faker.location.city(),
+        });
+      }
 
-      const usersData = await response.json();
-      return usersData.results as UserData[];
+      return users;
     } catch (e: any) {
       Utils.wrireError(e);
     }
@@ -102,6 +97,22 @@ export class Utils {
           JSON.stringify({ error: e.message, time: new Date() })
         );
       }
+    }
+  }
+  /*Get paystub images */
+  static async getPaystubsImages() {
+    try {
+      const filePath = join(__dirname, "src", "paystubs/p1.png");
+
+      let b = await readFile(filePath);
+      const c = new Blob([b], { type: "image/png" });
+
+      return c;
+    } catch (e: any) {
+      appendFile(
+        "error.log",
+        JSON.stringify({ error: e.message, time: new Date() })
+      );
     }
   }
 }

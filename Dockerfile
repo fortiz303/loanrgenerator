@@ -1,9 +1,6 @@
-FROM mcr.microsoft.com/playwright:v1.35.0-jammy
+FROM node:18.16.0
 
 RUN mkdir -p /usr/app/loans-generator
-RUN mkdir -p /usr/app/loans-generator
-
-
 
 WORKDIR /usr/app/loans-generator
 

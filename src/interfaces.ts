@@ -42,7 +42,6 @@ export interface UserInterface {
   contact: string;
   username: string;
   password: string;
-  pfp: Blob;
   location: string;
   token?: string;
 }
@@ -50,9 +49,6 @@ export interface UserInterface {
 export interface LoanCollateral {
   title: string;
   description: string;
-  url?: string;
-  urlCaption?: string;
-  images?: Buffer[];
 }
 
 export interface LoanRequestInterface {
@@ -62,6 +58,5 @@ export interface LoanRequestInterface {
   date: string;
   borrowerLocation: string;
   isCollateralExist: boolean;
-  images?: any[];
   status: "saved" | "published" | "granted" | "preconfirmed" | "paid";
 }

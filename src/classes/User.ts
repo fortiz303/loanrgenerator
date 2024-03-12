@@ -14,7 +14,6 @@ export class User implements UserInterface {
   contact: string;
   username: string;
   password: string;
-  pfp: Blob;
   location: string;
   token?: string;
 
@@ -25,7 +24,6 @@ export class User implements UserInterface {
     this.contact = user.contact;
     this.username = user.username;
     this.location = user.location;
-    this.pfp = user.pfp;
   }
   /*User signup */
   public async signup() {
@@ -36,10 +34,6 @@ export class User implements UserInterface {
       contact: this.contact,
       password: this.password,
     };
-
-    const formData = new FormData();
-
-    formData.append("pfp", this.pfp, `avatar-${this.username}.jpg`);
 
     try {
       /*Register new user */
@@ -53,12 +47,6 @@ export class User implements UserInterface {
       if (response.statusText === "OK") {
         /*Update profile with avatar */
         this.token = responseData.token;
-        const avatarResp = await fetch(`${config.apiUrl}/auth/update-pfp`, {
-          method: "PUT",
-          headers: { Authorization: `Bearer ${this.token}` },
-          body: formData,
-        });
-        const avatarData = await avatarResp.json();
 
         return true;
       } else {
