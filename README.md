@@ -5,6 +5,7 @@
 - loans.log - published loan requests;
 - error.log - contain possible errors;
 - descriptions.ts - loan request descriptions;
+- cities.ts - Borrower locations list;
 
 # Don't delete files - only cleaning up if needed:
 
@@ -53,3 +54,8 @@ descriptions.ts => ["...","new description"]
 - Change config.json => "lendersCount" to desired number
 - docker compose build;
 - docker compose up
+
+### Change Borrower locations list:
+
+- docker compose down
+- add/remove city name in the src/cities.ts

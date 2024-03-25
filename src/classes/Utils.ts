@@ -5,6 +5,7 @@ import { faker } from "@faker-js/faker";
 
 import path from "path";
 import { join } from "node:path";
+import { cities } from "../cities.js";
 const __dirname = path.resolve();
 
 export class Utils {
@@ -64,13 +65,15 @@ export class Utils {
         while (username.length < 5 || username.length > 10) {
           username = faker.internet.userName().toLowerCase();
         }
+
+        const randomCityIndex = this.getRandomNumber(0, cities.length - 1);
         users.push({
           name: faker.person.fullName(),
           email: username + "@getloanr.com",
           password: faker.internet.password(),
           contact: "+15555555555",
           username,
-          location: faker.location.city(),
+          location: cities[randomCityIndex],
         });
       }
 
