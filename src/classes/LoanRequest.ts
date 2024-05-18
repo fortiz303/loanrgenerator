@@ -21,12 +21,6 @@ export class LoanRequest {
   public async createRequest(): Promise<LoanRequestInterface> {
     let collateral = {} as LoanCollateral;
 
-    /*Loan request collateral title - up to 3 words  */
-    collateral.title = "";
-    /*Loan request collateral title - full title from Ebay */
-    collateral.description =
-      descriptions[Utils.getRandomNumber(0, descriptions.length - 1)];
-
     return {
       requestedAmount: this.requestedAmount,
       paybackAmount: this.paybackAmount,
