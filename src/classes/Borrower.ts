@@ -39,7 +39,7 @@ export class Borrower extends User {
     formData.append("paystubsFiles", file, "testfile.png");
     try {
       /*Send create loan request to the server */
-      const response = await fetch(`${config.apiUrl}/loans/1`, {
+      const response = await fetch(`${config.apiUrl}/loans/`, {
         method: "POST",
         headers: {
           Authorization: `Bearer ${this.token}`,
