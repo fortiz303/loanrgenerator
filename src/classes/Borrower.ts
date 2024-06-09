@@ -35,11 +35,11 @@ export class Borrower extends User {
       }
     }
 
-    const file = (await Utils.getPaystubsImages()) as Blob;
+    const file = (await Utils.getImages("paystubs/p1.png")) as Blob;
     formData.append("paystubsFiles", file, "testfile.png");
     try {
       /*Send create loan request to the server */
-      const response = await fetch(`${config.apiUrl}/loans/`, {
+      const response = await fetch(`${config.apiUrl}/loans`, {
         method: "POST",
         headers: {
           Authorization: `Bearer ${this.token}`,

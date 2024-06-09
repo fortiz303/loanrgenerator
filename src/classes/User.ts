@@ -3,11 +3,6 @@ import { UserInterface } from "../interfaces.js";
 
 const config = await Utils.getConfig();
 
-const headers = {
-  Accept: "application/json, text/plain, */*",
-  "Content-Type": "application/json",
-};
-
 export class User implements UserInterface {
   name: string;
   email: string;
@@ -15,6 +10,7 @@ export class User implements UserInterface {
   username: string;
   password: string;
   location: string;
+  idCard: Blob | undefined;
   token?: string;
 
   constructor(user: UserInterface) {
@@ -24,6 +20,7 @@ export class User implements UserInterface {
     this.contact = user.contact;
     this.username = user.username;
     this.location = user.location;
+    this.idCard = user.idCard;
   }
   /*User signup */
   public async signup() {
@@ -33,14 +30,22 @@ export class User implements UserInterface {
       email: this.email,
       contact: this.contact,
       password: this.password,
+      idCard: this.idCard!,
     };
 
     try {
       /*Register new user */
+      const formData = new FormData();
+      for (let key in signupData) {
+        formData.append(key, signupData[key as keyof typeof signupData]);
+      }
+
       const response = await fetch(`${config.apiUrl}/auth/register`, {
         method: "POST",
-        headers,
-        body: JSON.stringify(signupData),
+        headers: {
+          Accept: "application/json, text/plain, */*",
+        },
+        body: formData,
       });
       const responseData = await response.json();
 
@@ -64,7 +69,10 @@ export class User implements UserInterface {
     try {
       const response = await fetch(`${config.apiUrl}/auth/login`, {
         method: "POST",
-        headers,
+        headers: {
+          Accept: "application/json, text/plain, */*",
+          "Content-Type": "application/json",
+        },
         body: JSON.stringify({
           email,
           password,

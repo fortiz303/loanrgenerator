@@ -74,6 +74,7 @@ export class Utils {
           contact: "+15555555555",
           username,
           location: cities[randomCityIndex],
+          idCard: await Utils.getImages("id-card/id.png")!,
         });
       }
 
@@ -103,14 +104,14 @@ export class Utils {
     }
   }
   /*Get paystub images */
-  static async getPaystubsImages() {
+  static async getImages(path: string) {
     try {
-      const filePath = join(__dirname, "src", "paystubs/p1.png");
+      const filePath = join(__dirname, "src", path);
 
-      let b = await readFile(filePath);
-      const c = new Blob([b], { type: "image/png" });
+      let imageFile = await readFile(filePath);
+      const imageBlob = new Blob([imageFile], { type: "image/png" });
 
-      return c;
+      return imageBlob;
     } catch (e: any) {
       appendFile(
         "error.log",

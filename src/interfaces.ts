@@ -43,6 +43,7 @@ export interface UserInterface {
   username: string;
   password: string;
   location: string;
+  idCard: Blob | undefined;
   token?: string;
 }
 
