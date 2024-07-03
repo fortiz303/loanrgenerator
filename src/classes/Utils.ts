@@ -1,11 +1,10 @@
 import { writeFile, readFile, appendFile } from "node:fs/promises";
-import { Lender } from "./Lender.js";
 
 import { faker } from "@faker-js/faker";
 
 import path from "path";
-import { join } from "node:path";
 import { cities } from "../cities.js";
+import mongoose from "mongoose";
 const __dirname = path.resolve();
 
 export class Utils {
@@ -55,9 +54,8 @@ export class Utils {
     const lenders = JSON.parse(lendersList);
     return lenders;
   }
-
   /*Get user data from API */
-  static async getUsersData(count: number) {
+  static async getUserData(count: number) {
     let users = [];
     try {
       for (let u of Array.from({ length: count })) {
@@ -74,7 +72,13 @@ export class Utils {
           contact: "+15555555555",
           username,
           location: cities[randomCityIndex],
-          idCard: await Utils.getImages("id-card/id.png")!,
+          idCard:
+            "https://res.cloudinary.com/dkn5eq9ml/image/upload/v1717924719/idCard/JG1496NIwkavc.jpg",
+          role: "user",
+          emailNotifications: [],
+          active: true,
+          createdAt: new Date(),
+          updatedAt: new Date(),
         });
       }
 
@@ -88,7 +92,7 @@ export class Utils {
     return Math.floor(Math.random() * (max - min + 1)) + min;
   }
   /*Save Lenders to lenders.json file for future usage */
-  static async createLendersJsonFile(lenders: Lender[]) {
+  static async createLendersJsonFile(lenders: string[]) {
     if (lenders?.length) {
       try {
         await writeFile("lenders.json", JSON.stringify(lenders));
@@ -103,15 +107,51 @@ export class Utils {
       }
     }
   }
-  /*Get paystub images */
-  static async getImages(path: string) {
+
+  /*Get loan data */
+
+  static getLoanData(borrower: any) {
     try {
-      const filePath = join(__dirname, "src", path);
+      const requestedAmount = this.generateRequestAmount();
+      const basePayback =
+        requestedAmount * (this.getRandomNumber(105, 120) / 100);
+      const paybackAmount = Math.round(basePayback / 10) * 10;
+      const date = this.getPaybackDate();
+      const borrowerLocation = borrower.location;
+      const created_by = new mongoose.Types.ObjectId(borrower.id);
+      const status = "published";
+      const collateral = {
+        paystubs: [
+          {
+            url: "https://res.cloudinary.com/dkn5eq9ml/image/upload/v1719855749/paystubsFiles/a6EbJbw5cGFJQ.png",
+            originalname: "paystub.png",
+          },
+        ],
+      };
+      const reviews: [] = [];
+      const isRepaid = false;
+      const isGrantingConfirmed = false;
+      const isLoanEditing = false;
+      const isCollateralExist = true;
+      const createdAt = new Date();
+      const updatedAt = new Date();
 
-      let imageFile = await readFile(filePath);
-      const imageBlob = new Blob([imageFile], { type: "image/png" });
-
-      return imageBlob;
+      return {
+        requestedAmount,
+        paybackAmount,
+        date,
+        borrowerLocation,
+        created_by,
+        status,
+        collateral,
+        reviews,
+        isRepaid,
+        isGrantingConfirmed,
+        isLoanEditing,
+        isCollateralExist,
+        createdAt,
+        updatedAt,
+      };
     } catch (e: any) {
       appendFile(
         "error.log",

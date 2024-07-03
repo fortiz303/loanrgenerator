@@ -25,6 +25,10 @@ lendersCount: 15 - a random lender will be picked every iteration;
 - **isLendersCreated** - initially false, will be changed to true, after creation Lenders accounts, prevents creating Lenders accounts every script iteration;
 - **lendersCount** - Quantity of Lenders accounts to be created,initially 15;
 
+# .env
+
+MONGO_STRING - Mongo db connection string
+
 ### Run script:
 
 - docker compose build;
@@ -33,10 +37,6 @@ lendersCount: 15 - a random lender will be picked every iteration;
 ### Change script running interval, by default - every 3 hours:
 
 config.json => "intervalInHours"
-
-### Add new loan request description:
-
-descriptions.ts => ["...","new description"]
 
 ### Renew Lenders accounts:
 
